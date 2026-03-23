@@ -4,6 +4,11 @@
     box-sizing: border-box;
 }
 
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
 :root {
     --primary-color: #FF6B9D;
     --primary-light: #FFB3D9;
@@ -73,6 +78,18 @@ body::after {
     box-shadow: 0 20px 60px rgba(255, 107, 157, 0.2);
     overflow: hidden;
     border: 3px solid var(--primary-light);
+    animation: containerFadeIn 0.8s ease-out;
+}
+
+@keyframes containerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 header {
@@ -81,6 +98,18 @@ header {
     padding: 40px 30px;
     position: relative;
     overflow: hidden;
+    animation: headerSlideDown 0.6s ease-out;
+}
+
+@keyframes headerSlideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 header::before {
@@ -118,6 +147,21 @@ header h1 {
     margin-bottom: 8px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     font-weight: 800;
+    animation: titleBounce 1s ease-out;
+}
+
+@keyframes titleBounce {
+    0% {
+        transform: scale(0.5) rotate(-5deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05) rotate(2deg);
+    }
+    100% {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+    }
 }
 
 header .subtitle {
@@ -226,6 +270,30 @@ header .subtitle {
     box-shadow: var(--shadow);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn:active {
+    transform: scale(0.95);
 }
 
 .btn-primary {
@@ -236,6 +304,13 @@ header .subtitle {
 .btn-primary:hover {
     transform: translateY(-3px) scale(1.02);
     box-shadow: var(--shadow-hover);
+    animation: wiggle 0.5s ease-in-out;
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: translateY(-3px) rotate(0deg); }
+    25% { transform: translateY(-3px) rotate(-2deg); }
+    75% { transform: translateY(-3px) rotate(2deg); }
 }
 
 .btn-secondary {
@@ -282,6 +357,18 @@ header .subtitle {
     box-shadow: var(--shadow);
     position: relative;
     overflow: hidden;
+    animation: slideInFromLeft 0.6s ease-out;
+}
+
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 .profile-card::before {
@@ -311,6 +398,18 @@ header .subtitle {
     flex-wrap: wrap;
     gap: 12px;
     justify-content: center;
+    animation: fadeInUp 0.8s ease-out 0.3s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .view-toggle {
@@ -468,8 +567,18 @@ header .subtitle {
 
 .timeline-content:hover {
     box-shadow: var(--shadow-hover);
-    transform: translateY(-3px);
+    transform: translateY(-3px) scale(1.01);
     border-color: var(--primary-light);
+    animation: cardShine 1s ease-in-out;
+}
+
+@keyframes cardShine {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
 }
 
 .timeline-item.completed .timeline-content {
@@ -534,8 +643,23 @@ header .subtitle {
 
 .vaccine-card:hover {
     box-shadow: var(--shadow-hover);
-    transform: translateY(-3px);
+    transform: translateY(-3px) scale(1.01);
     border-color: var(--primary-light);
+}
+
+.vaccine-card {
+    animation: fadeInScale 0.5s ease-out;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .vaccine-card.completed {
@@ -814,18 +938,19 @@ header .subtitle {
 
 /* Modal Styles */
 .modal {
-    position: fixed;
+    position: fixed !important;
     z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
     background-color: rgba(255, 107, 157, 0.3);
     backdrop-filter: blur(5px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     animation: fadeIn 0.3s;
+    padding: 20px;
 }
 
 @keyframes fadeIn {
@@ -1092,4 +1217,324 @@ footer p {
 
 ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(135deg, var(--primary-dark) 0%, #3DBDB4 100%);
+}
+
+/* ============================================
+   ADDITIONAL ANIMATIONS & EFFECTS
+   ============================================ */
+
+/* Sparkle effect for completed items */
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Shake animation for errors or alerts */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Heartbeat animation */
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    10%, 30% { transform: scale(1.1); }
+    20%, 40% { transform: scale(1); }
+}
+
+/* Confetti effect for celebrations */
+@keyframes confetti {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Glow effect */
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(255, 107, 157, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 107, 157, 0.8), 0 0 30px rgba(255, 107, 157, 0.6);
+    }
+}
+
+/* Bounce in animation */
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) translateY(-50px);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Rotate and scale */
+@keyframes rotateScale {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+/* Slide and fade */
+@keyframes slideAndFade {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Rainbow border animation */
+@keyframes rainbowBorder {
+    0% { border-color: #FF6B9D; }
+    25% { border-color: #4ECDC4; }
+    50% { border-color: #FFE66D; }
+    75% { border-color: #C7CEEA; }
+    100% { border-color: #FF6B9D; }
+}
+
+/* Apply animations to specific elements */
+.setup-section, .schedule-section {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.form-group {
+    animation: slideAndFade 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.form-group:nth-child(1) { animation-delay: 0.1s; }
+.form-group:nth-child(2) { animation-delay: 0.2s; }
+.form-group:nth-child(3) { animation-delay: 0.3s; }
+.form-group:nth-child(4) { animation-delay: 0.4s; }
+
+/* Hover effects for interactive elements */
+.filter-btn:active {
+    animation: heartbeat 0.3s ease-in-out;
+}
+
+.view-btn:active {
+    animation: heartbeat 0.3s ease-in-out;
+}
+
+/* Success celebration */
+.timeline-marker.completed-marker::after {
+    content: '✨';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 1.2rem;
+    animation: sparkle 1s ease-in-out infinite;
+}
+
+/* Upcoming vaccine attention grabber */
+.timeline-item.upcoming {
+    animation: glow 2s ease-in-out infinite;
+}
+
+.vaccine-card.upcoming {
+    animation: glow 2s ease-in-out infinite;
+}
+
+/* Badge animations */
+.badge {
+    animation: bounceIn 0.5s ease-out;
+}
+
+/* Language selector hover */
+.language-selector:hover {
+    animation: heartbeat 0.5s ease-in-out;
+}
+
+/* Footer animation */
+footer {
+    animation: fadeInUp 1s ease-out 0.5s both;
+}
+
+/* Smooth transitions for all interactive elements */
+button, a, input, select, textarea {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Add ripple effect to buttons */
+.btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:active::after {
+    width: 300px;
+    height: 300px;
+    transition: width 0s, height 0s;
+}
+
+/* Stagger animation for timeline items */
+.timeline-item {
+    animation: fadeInScale 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.timeline-item:nth-child(1) { animation-delay: 0.1s; }
+.timeline-item:nth-child(2) { animation-delay: 0.2s; }
+.timeline-item:nth-child(3) { animation-delay: 0.3s; }
+.timeline-item:nth-child(4) { animation-delay: 0.4s; }
+.timeline-item:nth-child(5) { animation-delay: 0.5s; }
+
+/* Category header animation */
+.category-header {
+    animation: slideInFromLeft 0.5s ease-out;
+}
+
+/* Modal backdrop animation */
+.modal {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Enhanced modal content animation */
+.modal-content {
+    animation: bounceIn 0.5s ease-out;
+}
+
+/* Close button hover effect */
+.close:hover {
+    animation: rotateScale 0.5s ease-in-out;
+}
+
+/* Checkbox animation enhancement */
+.checkbox-container input:checked ~ .checkmark {
+    animation: check-bounce 0.3s ease-out, heartbeat 0.5s ease-in-out 0.3s;
+}
+
+/* Info button continuous subtle animation */
+.info-btn {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+/* Vaccine item hover effect */
+.vaccine-item:hover {
+    animation: slideAndFade 0.3s ease-out;
+}
+
+/* Profile card sparkle effect */
+.profile-card::after {
+    content: '⭐';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    animation: sparkle 2s ease-in-out infinite;
+}
+
+/* Add loading animation for future use */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading {
+    animation: spin 1s linear infinite;
+}
+
+/* Smooth page transitions */
+.setup-section, .profile-section, .actions-section, .schedule-section {
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* Add subtle background animation to body */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+body {
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
+}
+
+
+/* ============================================
+   MODAL FIX - Ensure modals are hidden by default
+   ============================================ */
+
+/* Override any animation that might show modals */
+.modal {
+    display: none !important;
+}
+
+/* Only show modal when explicitly set to display: block */
+.modal[style*="display: block"],
+.modal[style*="display:block"] {
+    display: flex !important;
+}
+
+/* Apply animations only when modal is visible */
+.modal[style*="display: block"] {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal[style*="display: block"] .modal-content {
+    animation: bounceIn 0.5s ease-out;
 }

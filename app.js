@@ -202,32 +202,32 @@ const app = {
     updateUILanguage() {
         const t = translations[this.currentLanguage];
         
-        // Update static text
-        document.getElementById('appTitle').textContent = `👶 ${t.appTitle}`;
-        document.getElementById('appSubtitle').textContent = t.appSubtitle;
-        document.getElementById('setupProfileTitle').textContent = t.setupProfile;
-        document.getElementById('babyNameLabel').textContent = t.babyName + ':';
+        // Update static text with Font Awesome icons
+        document.getElementById('appTitle').innerHTML = `<i class="fas fa-baby"></i> ${t.appTitle}`;
+        document.getElementById('appSubtitle').innerHTML = `<i class="fas fa-heart"></i> ${t.appSubtitle}`;
+        document.getElementById('setupProfileTitle').innerHTML = `<i class="fas fa-user-plus"></i> ${t.setupProfile}`;
+        document.getElementById('babyNameLabel').innerHTML = `<i class="fas fa-baby-carriage"></i> ${t.babyName}:`;
         document.getElementById('babyName').placeholder = t.enterBabyName;
-        document.getElementById('babyDOBLabel').textContent = t.dateOfBirth + ':';
-        document.getElementById('vaccineTypeLabel').textContent = t.vaccinePreference + ':';
-        document.getElementById('pentaximOption').textContent = t.pentaxim;
-        document.getElementById('pentavalentOption').textContent = t.pentavalent;
-        document.getElementById('saveProfileBtn').textContent = t.saveProfile;
-        document.getElementById('editProfileBtn').textContent = t.editProfile;
-        document.getElementById('exportCalendarBtn').innerHTML = `📅 ${t.exportCalendar}`;
-        document.getElementById('exportDataBtn').innerHTML = `💾 ${t.exportData}`;
-        document.getElementById('importDataBtn').innerHTML = `📂 ${t.importData}`;
-        document.getElementById('addCustomVaccineBtn').innerHTML = `➕ ${t.addCustomVaccine}`;
-        document.getElementById('clearDataBtn').innerHTML = `🗑️ ${t.clearData}`;
-        document.getElementById('scheduleTitle').textContent = t.vaccinationSchedule;
-        document.getElementById('timelineViewBtn').innerHTML = `<span>📊</span> ${t.timelineView}`;
-        document.getElementById('listViewBtn').innerHTML = `<span>📋</span> ${t.listView}`;
-        document.getElementById('filterAll').textContent = t.all;
-        document.getElementById('filterPending').textContent = t.pending;
-        document.getElementById('filterCompleted').textContent = t.completed;
-        document.getElementById('filterUpcoming').textContent = t.upcoming;
-        document.getElementById('footerTip').innerHTML = `💡 <strong>${t.tip.split(':')[0]}:</strong> ${t.tip.split(':')[1]}`;
-        document.getElementById('languageLabel').textContent = t.language + ':';
+        document.getElementById('babyDOBLabel').innerHTML = `<i class="fas fa-birthday-cake"></i> ${t.dateOfBirth}:`;
+        document.getElementById('vaccineTypeLabel').innerHTML = `<i class="fas fa-syringe"></i> ${t.vaccinePreference}:`;
+        document.getElementById('pentaximOption').textContent = `💉 ${t.pentaxim}`;
+        document.getElementById('pentavalentOption').textContent = `💰 ${t.pentavalent}`;
+        document.getElementById('saveProfileBtn').innerHTML = `<i class="fas fa-save"></i> ${t.saveProfile}`;
+        document.getElementById('editProfileBtn').innerHTML = `<i class="fas fa-edit"></i> ${t.editProfile}`;
+        document.getElementById('exportCalendarBtn').innerHTML = `<i class="fas fa-calendar-alt"></i> ${t.exportCalendar}`;
+        document.getElementById('exportDataBtn').innerHTML = `<i class="fas fa-download"></i> ${t.exportData}`;
+        document.getElementById('importDataBtn').innerHTML = `<i class="fas fa-upload"></i> ${t.importData}`;
+        document.getElementById('addCustomVaccineBtn').innerHTML = `<i class="fas fa-plus-circle"></i> ${t.addCustomVaccine}`;
+        document.getElementById('clearDataBtn').innerHTML = `<i class="fas fa-trash-alt"></i> ${t.clearData}`;
+        document.getElementById('scheduleTitle').innerHTML = `<i class="fas fa-clipboard-list"></i> ${t.vaccinationSchedule}`;
+        document.getElementById('timelineViewBtn').innerHTML = `<i class="fas fa-stream"></i> ${t.timelineView}`;
+        document.getElementById('listViewBtn').innerHTML = `<i class="fas fa-list"></i> ${t.listView}`;
+        document.getElementById('filterAll').innerHTML = `<i class="fas fa-globe"></i> ${t.all}`;
+        document.getElementById('filterPending').innerHTML = `<i class="fas fa-clock"></i> ${t.pending}`;
+        document.getElementById('filterCompleted').innerHTML = `<i class="fas fa-check-circle"></i> ${t.completed}`;
+        document.getElementById('filterUpcoming').innerHTML = `<i class="fas fa-bell"></i> ${t.upcoming}`;
+        document.getElementById('footerTip').innerHTML = `<i class="fas fa-lightbulb"></i> <strong>${t.tip.split(':')[0]}:</strong> ${t.tip.split(':')[1]}`;
+        document.getElementById('languageLabel').innerHTML = `<i class="fas fa-language"></i> ${t.language}:`;
         
         // Update modal text
         document.getElementById('customVaccineTitle').textContent = t.customVaccineTitle;
@@ -296,9 +296,9 @@ const app = {
             document.getElementById('actionsSection').style.display = 'block';
             document.getElementById('scheduleSection').style.display = 'block';
 
-            document.getElementById('profileName').textContent = `👶 ${profile.name}`;
-            document.getElementById('profileDOB').textContent = `🎂 ${t.dob}: ${this.formatDate(new Date(profile.dob))}`;
-            document.getElementById('profileVaccineType').textContent = `💉 ${t.preference}: ${profile.vaccineType === 'pentaxim' ? 'Pentaxim' : 'Pentavalent'}`;
+            document.getElementById('profileName').innerHTML = `<i class="fas fa-baby"></i> ${profile.name}`;
+            document.getElementById('profileDOB').innerHTML = `<i class="fas fa-birthday-cake"></i> ${t.dob}: ${this.formatDate(new Date(profile.dob))}`;
+            document.getElementById('profileVaccineType').innerHTML = `<i class="fas fa-syringe"></i> ${t.preference}: ${profile.vaccineType === 'pentaxim' ? 'Pentaxim' : 'Pentavalent'}`;
 
             this.renderSchedule();
         } else {
@@ -532,7 +532,7 @@ const app = {
                             onchange="app.toggleSubVaccine(${parentIndex}, ${vIndex})">
                         <span>${vaccine}</span>
                     </label>
-                    ${hasInfo ? `<button class="info-btn" onclick="app.showVaccineDetails('${vaccineKey}')" title="${t.viewDetails}">ℹ️</button>` : ''}
+                    ${hasInfo ? `<button class="info-btn" onclick="app.showVaccineDetails('${vaccineKey}')" title="${t.viewDetails}"><i class="fas fa-info-circle"></i></button>` : ''}
                 </div>
             `;
         }).join('');
@@ -613,18 +613,28 @@ const app = {
 
     // Show vaccine details modal
     showVaccineDetails(vaccineKey) {
-        const info = vaccineInfo[this.currentLanguage][vaccineKey];
         const t = translations[this.currentLanguage];
-        
-        if (!info) return;
-
         const content = document.getElementById('vaccineDetailsContent');
-        content.innerHTML = `
-            <div class="vaccine-detail">
-                <h3>${info.name}</h3>
-                <p><strong>${t.purpose}:</strong> ${info.purpose}</p>
-            </div>
-        `;
+        
+        // Try to find the vaccine info
+        let info = vaccineInfo[this.currentLanguage] && vaccineInfo[this.currentLanguage][vaccineKey];
+        
+        // If not found, show a default message
+        if (!info) {
+            content.innerHTML = `
+                <div class="vaccine-detail">
+                    <h3>${vaccineKey}</h3>
+                    <p><strong>${t.purpose || 'Purpose'}:</strong> This vaccine provides important protection for your baby. Please consult your pediatrician for detailed information.</p>
+                </div>
+            `;
+        } else {
+            content.innerHTML = `
+                <div class="vaccine-detail">
+                    <h3>${info.name}</h3>
+                    <p><strong>${t.purpose}:</strong> ${info.purpose}</p>
+                </div>
+            `;
+        }
 
         document.getElementById('vaccineDetailsModal').style.display = 'block';
     },
