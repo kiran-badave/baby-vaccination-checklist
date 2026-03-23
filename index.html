@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby Vaccination Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div>
+                    <h1 id="appTitle">👶 Baby Vaccination Tracker</h1>
+                    <p class="subtitle" id="appSubtitle">Track your baby's vaccination schedule with ease</p>
+                </div>
+                <div class="language-selector">
+                    <label for="languageSelect" id="languageLabel">Language:</label>
+                    <select id="languageSelect" onchange="app.changeLanguage(this.value)">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी (Hindi)</option>
+                        <option value="mr">मराठी (Marathi)</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <div class="setup-section" id="setupSection">
+            <h2 id="setupProfileTitle">Setup Baby Profile</h2>
+            <div class="form-group">
+                <label for="babyName" id="babyNameLabel">Baby's Name:</label>
+                <input type="text" id="babyName" placeholder="Enter baby's name">
+            </div>
+            <div class="form-group">
+                <label for="babyDOB" id="babyDOBLabel">Date of Birth:</label>
+                <input type="date" id="babyDOB">
+            </div>
+            <div class="form-group">
+                <label for="vaccineType" id="vaccineTypeLabel">Vaccine Type Preference:</label>
+                <select id="vaccineType">
+                    <option value="pentaxim" id="pentaximOption">Pentaxim (Less pain, fewer injections)</option>
+                    <option value="pentavalent" id="pentavalentOption">Pentavalent (More affordable)</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" onclick="app.setupProfile()" id="saveProfileBtn">Save Profile</button>
+        </div>
+
+        <div class="profile-section" id="profileSection" style="display: none;">
+            <div class="profile-card">
+                <h3 id="profileName"></h3>
+                <p id="profileDOB"></p>
+                <p id="profileVaccineType"></p>
+                <button class="btn btn-secondary" onclick="app.editProfile()" id="editProfileBtn">Edit Profile</button>
+            </div>
+        </div>
+
+        <div class="actions-section" id="actionsSection" style="display: none;">
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="app.exportToCalendar()" id="exportCalendarBtn">📅 Export to Calendar (ICS)</button>
+                <button class="btn btn-secondary" onclick="app.exportData()" id="exportDataBtn">💾 Export Data (JSON)</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()" id="importDataBtn">📂 Import Data</button>
+                <input type="file" id="importFile" accept=".json" style="display: none;" onchange="app.importData(event)">
+                <button class="btn btn-success" onclick="app.showCustomVaccineModal()" id="addCustomVaccineBtn">➕ Add Custom Vaccine</button>
+                <button class="btn btn-danger" onclick="app.clearData()" id="clearDataBtn">🗑️ Clear All Data</button>
+            </div>
+        </div>
+
+        <div class="schedule-section" id="scheduleSection" style="display: none;">
+            <h2 id="scheduleTitle">Vaccination Schedule</h2>
+            
+            <div class="view-toggle">
+                <button class="view-btn active" onclick="app.switchView('timeline')" id="timelineViewBtn">
+                    <span>📊</span> Timeline View
+                </button>
+                <button class="view-btn" onclick="app.switchView('list')" id="listViewBtn">
+                    <span>📋</span> List View
+                </button>
+            </div>
+
+            <div class="filter-section">
+                <button class="filter-btn active" onclick="app.filterSchedule('all')" id="filterAll">All</button>
+                <button class="filter-btn" onclick="app.filterSchedule('pending')" id="filterPending">Pending</button>
+                <button class="filter-btn" onclick="app.filterSchedule('completed')" id="filterCompleted">Completed</button>
+                <button class="filter-btn" onclick="app.filterSchedule('upcoming')" id="filterUpcoming">Upcoming (7 days)</button>
+            </div>
+
+            <div id="timelineView" class="timeline-container"></div>
+            <div id="listView" class="list-container" style="display: none;"></div>
+        </div>
+
+        <footer>
+            <p id="footerTip">💡 <strong>Tip:</strong> Vaccines can be taken ±5–7 days safely. Always consult your pediatrician.</p>
+        </footer>
+    </div>
+
+    <!-- Custom Vaccine Modal -->
+    <div id="customVaccineModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="app.closeCustomVaccineModal()">&times;</span>
+            <h2 id="customVaccineTitle">Add Custom Vaccine</h2>
+            <div class="form-group">
+                <label for="customVaccineName" id="customVaccineNameLabel">Vaccine Name:</label>
+                <input type="text" id="customVaccineName" placeholder="e.g., Flu Shot">
+            </div>
+            <div class="form-group">
+                <label for="customVaccineAge" id="customVaccineAgeLabel">Age/Time:</label>
+                <input type="text" id="customVaccineAge" placeholder="e.g., 8 months">
+            </div>
+            <div class="form-group">
+                <label for="customVaccineWeeks" id="customVaccineWeeksLabel">Weeks from birth:</label>
+                <input type="number" id="customVaccineWeeks" placeholder="e.g., 35">
+            </div>
+            <div class="form-group">
+                <label for="customVaccineDescription" id="customVaccineDescriptionLabel">Description/Purpose:</label>
+                <textarea id="customVaccineDescription" rows="3" placeholder="What is this vaccine for?"></textarea>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="customVaccineMandatory">
+                    <span id="customVaccineMandatoryLabel">Mandatory</span>
+                </label>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="app.addCustomVaccine()" id="addVaccineBtn">Add Vaccine</button>
+                <button class="btn btn-secondary" onclick="app.closeCustomVaccineModal()" id="cancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vaccine Details Modal -->
+    <div id="vaccineDetailsModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="app.closeVaccineDetailsModal()">&times;</span>
+            <h2 id="vaccineDetailsTitle">Vaccine Details</h2>
+            <div id="vaccineDetailsContent"></div>
+            <button class="btn btn-secondary" onclick="app.closeVaccineDetailsModal()" id="closeDetailsBtn">Close</button>
+        </div>
+    </div>
+
+    <script src="translations.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
