@@ -882,4 +882,3 @@ window.onclick = function(event) {
     }
 }
 
-// Made with Bob

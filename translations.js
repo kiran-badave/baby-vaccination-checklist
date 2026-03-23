@@ -362,5 +362,3 @@ const vaccineInfo = {
         }
     }
 };
-
-// Made with Bob
